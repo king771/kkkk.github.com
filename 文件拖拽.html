@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+#box{width:500px;height:300px;text-align:center;line-height:300px;font-size:36px;border:1px solid black;margin:100px auto;display:none;}
+</style>
+</head>
+
+<body>
+<div id="box">请将文件拖到此处</div>
+<script>
+window.onload=function(){
+	var oBox=document.getElementById('box');
+	oBox.ondragenter=function(){
+		oBox.innerHTML='释放鼠标';
+	};
+	
+	oBox.ondragleave=function(){
+		oBox.innerHTML='请将文件拖到此处';
+	};
+	
+	oBox.ondragover=function(){
+		return false;
+	};
+	
+	oBox.ondrop=function(){
+		alert('放下了');
+		return false;
+	};
+	var timer=null;
+	document.ondragover=function(){
+		oBox.style.display='block';
+		clearInterval(timer);
+		timer=setInterval(function(){
+			oBox.style.display='none';
+		},300);
+	};
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+#txt{width:200px;height:300px;border:1px solid black;}
+#box{width:500px;height:300px;margin:100px auto;border:1px solid black;text-align:center;line-height:300px;font-size:36px;display:none;}
+</style>
+</head>
+
+<body>
+<span></span>
+<textarea id="txt"></textarea>
+<div id="box">请将文件拖放到此处</div>
+
+<script>
+window.onload=function(){
+	var oTxt=document.getElementById('txt');
+	var oBox=document.getElementById('box');
+	var oS=document.getElementsByTagName('span')[0];
+	
+	oBox.ondragenter=function(){
+		oBox.style.display='block';
+		oBox.innerHTML='释放鼠标';
+	};
+	
+	oBox.ondragleave=function(){
+		oBox.style.display='';
+		oBox.innerHTML='请将文件拖放到此处';
+	};
+	
+	oBox.ondragover=function(){
+		return false;
+	};
+	
+	oBox.ondrop=function(ev){
+		var oFile=ev.dataTransfer.files[0];
+		var reader=new FileReader();
+		
+		reader.onload=function(){
+			oTxt.value=reader.result;
+		};
+		
+		reader.onprogress=function(ev){
+			var scale=ev.loaded/ev.total;
+			oS.innerHTML=(scale*100).toFixed(2)+'%';
+		};
+		
+		reader.readAsDataURL(oFile);
+		
+		return false;
+	};
+	
+	var timer = null;
+	document.ondragover=function(){
+		oBox.style.display='block';
+		clearTimeout(timer);
+		timer = setTimeout(function(){
+			oBox.style.display='none';
+		},300);
+	};
+};
+</script>
+</body>
+</html>
